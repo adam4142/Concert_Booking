@@ -1,15 +1,20 @@
 package org.example.concert_booking.Controller;
 
+import org.example.concert_booking.Model.Booking;
+import org.example.concert_booking.Model.Concert;
 import org.example.concert_booking.Model.User;
+import org.example.concert_booking.Repository.ConcertRepository;
 import org.example.concert_booking.Repository.UserRepository;
 import org.example.concert_booking.Security.TokenGenerator;
 import java.util.Map;
+import org.example.concert_booking.Service.concertService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-
+@CrossOrigin("localhoste/3000")
 @RestController
 @RequestMapping("/api")
 public class UserAPIController {
@@ -23,6 +28,12 @@ public class UserAPIController {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private ConcertRepository concertRepository;
+
+    @Autowired
+    private concertService concertService;
 
 
     @PostMapping("/register")
@@ -45,4 +56,38 @@ public class UserAPIController {
     public  ResponseEntity<?> alluser(){
         return  ResponseEntity.ok(Map.of("user",userRepository.findAll()));
     }
+
+    @PostMapping("/add_concert")
+    public ResponseEntity<?> concertCreation(@RequestBody Concert concert){
+        concertRepository.save(concert);
+        return ResponseEntity.ok("Concert Added Successfully - "+concert.getConcertName());
+    }
+
+    @PostMapping("/editConcert/{id}")
+    public ResponseEntity<?> editConcert(@RequestBody Concert concert, @PathVariable Integer id){
+        return concertService.updateConcert(id, concert)
+                .map(updated -> ResponseEntity.ok(Map.of("message", "Updated the concert Successfully")))
+                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(Map.of("error", "Concert with ID "+id+" not found")));
+    }
+
+    @DeleteMapping("/deleteConcert/{id}")
+    public ResponseEntity<?> deleteConcert(@RequestBody Concert concert, @PathVariable Integer id){
+        if (concertRepository.existsById(id)){
+            concertRepository.deleteById(id);
+            return ResponseEntity.ok(Map.of("message", "Concert Deleted Successfully"));
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(Map.of("error", "Concert with ID "+id+" not found"));
+        }
+    }
+    @PostMapping("/createBooking/{concertId}/{userId}")
+    public ResponseEntity<?> createBooking(@RequestBody Booking booking, @PathVariable Integer concertId,@PathVariable Integer userId){
+        System.out.println("Working Working WORKING");
+           boolean resp=    concertService.bookingConcert(concertId, booking ,userId);
+           if(resp){
+               return  ResponseEntity.ok(Map.of("Concert booked",concertId));
+           }
+           return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error booking");
+    }
+
 }

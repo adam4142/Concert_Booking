@@ -57,7 +57,9 @@ public class ApiAuthenticationFilter extends OncePerRequestFilter {
         } else if (request.getRequestURI().startsWith("/api/")
                 && !request.getRequestURI().equals("/api/register")
                 && !request.getRequestURI().equals("/api/login")
-                && !request.getRequestURI().equals("/api/user")) {
+                && !request.getRequestURI().equals("/api/user"))
+
+        {
             response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
             response.getWriter().write("Token required");
             return;
@@ -66,4 +68,6 @@ public class ApiAuthenticationFilter extends OncePerRequestFilter {
         // Continue the filter chain
         filterChain.doFilter(request, response);
     }
+
+
 }

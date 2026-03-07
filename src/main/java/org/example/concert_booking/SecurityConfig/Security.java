@@ -34,18 +34,26 @@ public class Security {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
         http.csrf(c -> c.disable())
                 .authorizeHttpRequests(request -> request
-                        .requestMatchers("/registration", "/css/**", "/js/**","/api/login" ,"/api/register","/api/user","/api/**").permitAll()
-                        .anyRequest().authenticated())
+
+                        // ADMIN endpoints FIRST
+                        .requestMatchers("/api/add_concert","/api/editConcert/**","/api/deleteConcert/**")
+                        .hasAuthority("ADMIN")
+
+                        // public endpoints
+                        .requestMatchers("/registration","/css/**","/js/**","/api/login","/api/register",
+                                "/swagger-ui/**","/v3/api-docs/**","/swagger-ui.html")
+                        .permitAll()
+
+                        .anyRequest().authenticated()
+                )
                 .formLogin(form -> form.disable())
-
                 .logout(form -> form.disable());
-
 
         return http.build();
     }
-
 
 //    @Autowired
 //    public void configure (AuthenticationManagerBuilder auth) throws Exception {

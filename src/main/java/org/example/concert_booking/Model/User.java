@@ -2,6 +2,8 @@ package org.example.concert_booking.Model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name= "users")
 public class User {
@@ -16,6 +18,8 @@ public class User {
     private String password;
     private String role = "ROLE_USER";
     private String token;
+    @OneToMany(mappedBy = "user")
+    private List<Booking> bookings;
 
     public User(String fname, String lname, String email, String password, String role) {
         this.fname = fname;
