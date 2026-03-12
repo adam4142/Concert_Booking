@@ -14,7 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin("localhost:3000")
+//@CrossOrigin(origins = "http://localhost:3002")
 @RestController
 @RequestMapping("/api")
 public class UserAPIController {
