@@ -63,7 +63,7 @@ public class Security {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         // Must be the exact origin, NO wildcards (*) if you want to allow credentials
-        configuration.setAllowedOrigins(java.util.Arrays.asList("http://localhost:3002"));
+        configuration.setAllowedOrigins(java.util.Arrays.asList("http://localhost:3000"));
         configuration.setAllowedMethods(java.util.Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(java.util.Arrays.asList("Authorization", "Content-Type", "Accept"));
         // This fixes the "PreflightInvalidAllowCredentials" error
