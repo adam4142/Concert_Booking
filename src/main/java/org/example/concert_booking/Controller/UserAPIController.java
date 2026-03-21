@@ -47,6 +47,8 @@ public class UserAPIController {
     public ResponseEntity<?> login(@RequestBody User user) {
         String token = tokenGenerator.generateToken(user.getEmail(), user.getPassword());
         User role=userRepository.findByEmail(user.getEmail());
+        System.out.println("hi"+user.getEmail()+ user.getPassword()+ token);
+
         if (token != null) {
             return ResponseEntity.ok(Map.of("token", token ,"role", role.getRole()));
         }
