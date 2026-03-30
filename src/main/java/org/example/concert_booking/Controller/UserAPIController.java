@@ -92,4 +92,8 @@ public class UserAPIController {
            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Error booking");
     }
 
+    @GetMapping("/listConcerts")
+    public ResponseEntity<?> listConcerts(Concert concert){
+        return  ResponseEntity.ok(Map.of("concert",concertRepository.findAll()));
+    }
 }

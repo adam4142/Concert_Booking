@@ -54,9 +54,10 @@ public class Security {
                                 "/swagger-resources/**",
                                 "/webjars/**"
                         ).permitAll()
+                        .requestMatchers("/api/login", "/api/register").permitAll()
                         // 2. Use hasAuthority if your DB stores "ADMIN" without "ROLE_" prefix
                         .requestMatchers("/api/user", "/api/add_concert/**").hasAuthority("ROLE_ADMIN")
-                        .requestMatchers("/api/login", "/api/register").permitAll()
+
                         .anyRequest().authenticated()
                 )
                 .addFilterBefore(apiAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
