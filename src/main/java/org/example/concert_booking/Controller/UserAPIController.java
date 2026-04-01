@@ -7,6 +7,8 @@ import org.example.concert_booking.Repository.ConcertRepository;
 import org.example.concert_booking.Repository.UserRepository;
 import org.example.concert_booking.Security.TokenGenerator;
 import java.util.Map;
+import java.util.Optional;
+
 import org.example.concert_booking.Service.concertService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -14,7 +16,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-//@CrossOrigin(origins = "http://localhost:3002")
 @RestController
 @RequestMapping("/api")
 public class UserAPIController {
@@ -95,5 +96,14 @@ public class UserAPIController {
     @GetMapping("/listConcerts")
     public ResponseEntity<?> listConcerts(Concert concert){
         return  ResponseEntity.ok(Map.of("concert",concertRepository.findAll()));
+    }
+
+    @GetMapping("/singleConcert/{id}")
+    public ResponseEntity<?> singleConcert(@PathVariable Integer id) {
+//        Optional<Concert> concert = concertRepository.findById(id);
+//        if (concert.isPresent()) {
+//            Concert Data = concert.get();
+//        }
+        return  ResponseEntity.ok(Map.of("Concert",concertRepository.findById(id)));
     }
 }
