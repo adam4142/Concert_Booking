@@ -51,7 +51,7 @@ public class UserAPIController {
         System.out.println("hi"+user.getEmail()+ user.getPassword()+ token);
 
         if (token != null) {
-            return ResponseEntity.ok(Map.of("token", token ,"role", role.getRole()));
+            return ResponseEntity.ok(Map.of("token", token ,"role", role.getRole(), "name", role.getFname()));
         }
         return ResponseEntity.status(401).body("Invalid credentials");
     }
