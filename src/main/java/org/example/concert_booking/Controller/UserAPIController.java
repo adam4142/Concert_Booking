@@ -100,10 +100,6 @@ public class UserAPIController {
 
     @GetMapping("/singleConcert/{id}")
     public ResponseEntity<?> singleConcert(@PathVariable Integer id) {
-//        Optional<Concert> concert = concertRepository.findById(id);
-//        if (concert.isPresent()) {
-//            Concert Data = concert.get();
-//        }
         return  ResponseEntity.ok(Map.of("Concert",concertRepository.findById(id)));
     }
 }

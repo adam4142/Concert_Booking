@@ -10,7 +10,7 @@ import org.example.concert_booking.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+
 import java.util.Optional;
 
 @Service
@@ -38,32 +38,7 @@ public class concertService {
 
 
     }
-//
-//   public boolean bookingConcert(Integer concert_id, Booking booking ,Integer user_id) {
-//       Optional<User> user = userRepository.findById(user_id);
-//       User res = new User();
-//       if (user.isPresent()) {
-//           res = user.get();
-//       }
-//       Optional<Concert> concert = concertRepository.findById(concert_id);
-//       if (concert.isPresent()) {
-//           Concert data = concert.get();
-//           int booked = booking.getNoOfTicketsBooked();
-//           if (booked > 3) {
-//               return false;
-//           } else {
-//               float totalPrice = booked * data.getPrice();
-//               booking.setTotalPrice(totalPrice);
-//               booking.setConcert(data);
-//               booking.setUser(res);
-//               data.setAvailTicket(data.getAvailTicket() - booked);
-//
-//               concertRepository.save(data);
-//               bookingRepository.save(booking);
-//               return true;
-//           }
-//       }
-//       return false;
+
     @Transactional
     public boolean bookingConcert(Integer concertId, Booking booking, Integer userId){
         Optional<User> userOpt = userRepository.findById(userId);
