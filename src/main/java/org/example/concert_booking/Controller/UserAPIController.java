@@ -3,6 +3,7 @@ package org.example.concert_booking.Controller;
 import org.example.concert_booking.Model.Booking;
 import org.example.concert_booking.Model.Concert;
 import org.example.concert_booking.Model.User;
+import org.example.concert_booking.Repository.BookingRepository;
 import org.example.concert_booking.Repository.ConcertRepository;
 import org.example.concert_booking.Repository.UserRepository;
 import org.example.concert_booking.Security.TokenGenerator;
@@ -35,6 +36,8 @@ public class UserAPIController {
 
     @Autowired
     private concertService concertService;
+    @Autowired
+    private BookingRepository bookingRepository;
 
 
     @PostMapping("/register")
@@ -51,7 +54,7 @@ public class UserAPIController {
         System.out.println("hi"+user.getEmail()+ user.getPassword()+ token);
 
         if (token != null) {
-            return ResponseEntity.ok(Map.of("token", token ,"role", role.getRole(), "name", role.getFname()));
+            return ResponseEntity.ok(Map.of("token", token ,"role", role.getRole(), "name", role.getFname(),"id",role.getId()));
         }
         return ResponseEntity.status(401).body("Invalid credentials");
     }
@@ -101,5 +104,11 @@ public class UserAPIController {
     @GetMapping("/singleConcert/{id}")
     public ResponseEntity<?> singleConcert(@PathVariable Integer id) {
         return  ResponseEntity.ok(Map.of("Concert",concertRepository.findById(id)));
+    }
+
+    @GetMapping("/myBooking/{id}")
+    public ResponseEntity<?> myBooking(@PathVariable Integer id) {
+        return ResponseEntity.ok(Map.of("booking", bookingRepository.findRawDataByUserId(id)));
+
     }
 }

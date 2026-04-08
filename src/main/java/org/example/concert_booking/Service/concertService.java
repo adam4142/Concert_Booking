@@ -8,6 +8,8 @@ import org.example.concert_booking.Repository.BookingRepository;
 import org.example.concert_booking.Repository.ConcertRepository;
 import org.example.concert_booking.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 
@@ -40,7 +42,9 @@ public class concertService {
     }
 
     @Transactional
-    public boolean bookingConcert(Integer concertId, Booking booking, Integer userId){
+    public boolean bookingConcert(Integer concertId, Booking booking, Integer userId){// Get the authentication object
+//        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
         Optional<User> userOpt = userRepository.findById(userId);
         Optional<Concert> concertOpt = concertRepository.findById(concertId);
 
